@@ -1,7 +1,4 @@
-FROM node:lts-alpine3.12
-RUN apk add --update --no-cache nodejs
-RUN npm i -g yarn
-
+FROM node:14-buster-slim
 RUN npm install -g serverless && \
     npm install -g serverless-offline
 

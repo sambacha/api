@@ -42,15 +42,15 @@ jobs:
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
           
-          docker tag yearn-api docker.pkg.github.com/sambacha/yearn-api-docker/yearn-api:1.0.0
-          docker push docker.pkg.github.com/sambacha/yearn-api-docker/yearn-api:1.0.0
+        #  docker tag yearn-api docker.pkg.github.com/sambacha/yearn-api-docker/yearn-api:1.0.0
+        #  docker push docker.pkg.github.com/sambacha/yearn-api-docker/yearn-api:1.0.0
 
 
-        - name: Push to GitHub Packages
-            uses: docker/build-push-action@v1
-            with:
-            username: ${{ github.actor }}
-            password: ${{ secrets.GITHUB_TOKEN }}
-            registry: docker.pkg.github.com
-            repository: sambacha/api/my-image
-            tag_with_ref: true
+      - name: Push to GitHub Packages
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          repository: sambacha/api/my-image
+          tag_with_ref: true

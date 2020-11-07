@@ -1,4 +1,5 @@
 #!/bin/bash
+yarn install
 
 if [ ! -f .yarn-cache.tgz ]; then
   echo "+ build: Init empty .yarn-cache.tgz"

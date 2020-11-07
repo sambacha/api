@@ -17,3 +17,5 @@ services:
       - "./config:/opt/app/config:ro"
       - "./services:/opt/app/services:ro"
       - "./utils:/opt/app/utils:ro"
+      - "yarn_cache:/yarn"
+      - "node_modules_cache:/app/node_modules"

@@ -1,15 +1,22 @@
-FROM node:14-buster
+FROM node:lts-alpine3.12
+RUN apk add --update --no-cache nodejs
+RUN npm i -g yarn
 
 RUN npm install -g serverless && \
     npm install -g serverless-offline
 
-WORKDIR /opt/app
+ADD package.json yarn.lock /tmp/
+ADD .yarn-cache.tgz /
 
-COPY package*.json ./
+RUN cd /tmp && yarn
+RUN mkdir -p /service && cd /service && ln -s /tmp/node_modules
 
-RUN npm install
+COPY . /service
+WORKDIR /service
 
-COPY . .
+ENV FORCE_COLOR=1
+
+ENTRYPOINT ["npm"]
 
 EXPOSE 3000
 

@@ -1,0 +1,4 @@
+yarn.lock merge=npm-merge-driver
+*.key filter=git-crypt diff=git-crypt
+secretdir/** filter=git-crypt diff=git-crypt
+*.sh     eol=lf

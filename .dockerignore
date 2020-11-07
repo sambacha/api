@@ -9,3 +9,6 @@ node_modules
 docker-compose.yml
 *.sh
 .github/
+*.tgz
+bak.*
+*.dockerfile

@@ -1,6 +1,4 @@
 FROM node:lts-alpine3.12
-RUN apk add --update --no-cache nodejs
-RUN npm i -g yarn
 
 RUN npm install -g serverless && \
     npm install -g serverless-offline

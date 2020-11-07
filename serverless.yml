@@ -20,7 +20,7 @@ custom:
   documentation:
     api:
       info:
-        version: "1.01"
+        version: "1.02"
         title: Yearn API
         description: Yearn API
       tags:
@@ -40,20 +40,31 @@ functions:
   vaults:
     handler: services/vaults/handler.handler
     role: arn:aws:iam::698083237070:role/service-role/fetchTokenIds-role-o9i24lq2
+    timeout: 30
     events:
       - http:
           path: /vaults
           method: get
           cors: true
+          request:
+            parameters:
+              querystrings:
+                apy: false
           documentation:
             summary: Gets all vaults from the vault registry
             tags:
               - Vaults
             description: Vaults are pulled from the vault registry (https://etherscan.io/address/0x3ee41c098f9666ed2ea246f4d2558010e59d63a0). Includes controller/strategy info. Updates once an hour.
+          queryParams:
+            - name: "apy"
+              description: "Include vault APY"
+              type: "boolean"
+              required: false
 
   vaults-snapshots:
     handler: services/vaults/snapshots/handler.handler
     role: arn:aws:iam::698083237070:role/service-role/fetchTokenIds-role-o9i24lq2
+    timeout: 30
     events:
       - http:
           path: /vaults/snapshots
@@ -66,14 +77,30 @@ functions:
             description: >
               Currently the subgraph is indexing 8 out of 11 vaults. More vaults to be added later.
 
+  vaults-addresses:
+    handler: services/vaults/addresses/handler.handler
+    role: arn:aws:iam::698083237070:role/service-role/fetchTokenIds-role-o9i24lq2
+    timeout: 30
+    events:
+      - http:
+          path: /vaults/addresses
+          method: get
+          cors: true
+          documentation:
+            summary: Gets all vault addresses from the vault registry
+            tags:
+              - Vaults
+            description: >
+              Vault addresses are pulled from the vault registry (https://etherscan.io/address/0x3ee41c098f9666ed2ea246f4d2558010e59d63a0). Updates once an hour.
+
   vaults-save:
     handler: services/vaults/save/handler.handler
     role: arn:aws:iam::698083237070:role/service-role/fetchTokenIds-role-o9i24lq2
-    timeout: 300
 
   vaults-apy:
     handler: services/vaults/apy/handler.handler
     role: arn:aws:iam::698083237070:role/service-role/fetchTokenIds-role-o9i24lq2
+    timeout: 30
     events:
       - http:
           path: /vaults/apy
@@ -89,12 +116,16 @@ functions:
   vaults-apy-save:
     handler: services/vaults/apy/save/handler.handler
     role: arn:aws:iam::698083237070:role/service-role/fetchTokenIds-role-o9i24lq2
-    timeout: 300
+    events:
+      - http:
+          path: /vaults/apy/save
+          method: get
 
   # /user
   user-vaults:
     handler: services/user/vaults/handler.handler
     role: arn:aws:iam::698083237070:role/service-role/fetchTokenIds-role-o9i24lq2
+    timeout: 30
     events:
       - http:
           path: /user/{userAddress}/vaults
@@ -105,6 +136,7 @@ functions:
               paths:
                 userAddress: true
               querystrings:
+                apy: false
                 statistics: false
                 transactions: false
                 showall: false
@@ -118,6 +150,10 @@ functions:
             - name: "userAddress"
               description: "User account address. Format: 0x{...}"
           queryParams:
+            - name: "apy"
+              description: "Include vault APY"
+              type: "boolean"
+              required: false
             - name: "transactions"
               description: "Include user vault transactions"
               type: "boolean"
@@ -134,6 +170,7 @@ functions:
   user-vaults-transactions:
     handler: services/user/vaults/transactions/handler.handler
     role: arn:aws:iam::698083237070:role/service-role/fetchTokenIds-role-o9i24lq2
+    timeout: 30
     events:
       - http:
           path: /user/{userAddress}/vaults/transactions
@@ -156,6 +193,7 @@ functions:
   user-vaults-statistics:
     handler: services/user/vaults/statistics/handler.handler
     role: arn:aws:iam::698083237070:role/service-role/fetchTokenIds-role-o9i24lq2
+    timeout: 30
     events:
       - http:
           path: /user/{userAddress}/vaults/statistics
@@ -178,6 +216,7 @@ functions:
   user-vaults-earnings:
     handler: services/user/vault/earnings/handler.handler
     role: arn:aws:iam::698083237070:role/service-role/fetchTokenIds-role-o9i24lq2
+    timeout: 30
     events:
       - http:
           path: /user/{userAddress}/vaults/earnings
@@ -195,6 +234,7 @@ functions:
   loanscan-link:
     handler: services/loanscan/link/handler.handler
     role: arn:aws:iam::698083237070:role/service-role/fetchTokenIds-role-o9i24lq2
+    timeout: 30
     events:
       - http:
           path: /loanscan/link
@@ -210,6 +250,7 @@ functions:
   loanscan-eth-stable:
     handler: services/loanscan/eth-stable/handler.handler
     role: arn:aws:iam::698083237070:role/service-role/fetchTokenIds-role-o9i24lq2
+    timeout: 30
     events:
       - http:
           path: /loanscan/ethstable
@@ -225,6 +266,7 @@ functions:
   loanscan-ycrv:
     handler: services/loanscan/ycrv/handler.handler
     role: arn:aws:iam::698083237070:role/service-role/fetchTokenIds-role-o9i24lq2
+    timeout: 30
     events:
       - http:
           path: /loanscan/ycrv
@@ -240,6 +282,7 @@ functions:
   loanscan-crvbtc:
     handler: services/loanscan/crvbtc/handler.handler
     role: arn:aws:iam::698083237070:role/service-role/fetchTokenIds-role-o9i24lq2
+    timeout: 30
     events:
       - http:
           path: /loanscan/crvbtc
@@ -255,6 +298,7 @@ functions:
   loanscan-crvbusd:
     handler: services/loanscan/crvbusd/handler.handler
     role: arn:aws:iam::698083237070:role/service-role/fetchTokenIds-role-o9i24lq2
+    timeout: 30
     events:
       - http:
           path: /loanscan/crvbusd

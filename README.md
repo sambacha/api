@@ -15,34 +15,35 @@ https://yearn.tools
 
 ## Setup Instructions
 
-### Clone repoistory
+### Quick start
 
-`git clone https://github.com/yearn-integrations/api.git`
+- Install docker
+- Execute terminal commands
 
-### Install serverless
+```
+git clone https://github.com/yearn-integrations/yearn-api.git
+cd yearn-api
+cp .env.example .env
+docker-compose up
+```
 
-`npm install -g serverless`
+- The API should now be running locally on your dev machine
 
-### Configure local environment
+### Optional - Configure environment variables
 
-#### Copy .env file
-
-- The ".env" file in the root directory contains various configuration constants utilized by APIs
-- Run the command `cp .env.example .env` to copy .env file template
-- Populate your new .env file with your web3, archive node, and graph endpoints
-- In the future we may utilize AWS KMS to manage these constants
-
-#### Select AWS profile
-
-- Run the command `cp awsProfile.yml.example awsProfile.yml` to copy awsProfile.yml file template
-- By default the AWS profile "default" (in ~/.aws/credentials) is utilized
-- If you'd like to utilize a different AWS profile, edit your new "awsProfile.yml" file to select a profile
+- .env.example contains sample API keys for various services (Infura/Etherscan). This is done to enable developers to get up to speed quickly. If you are planning on developing APIs that extensively utilize these keys please consider generating new API keys :)
+- Update your .env file to use your own custom web3, archive node, and graph endpoints
+- Update your .env file to use your own custom AWS Credentials
 
 ## Usage Instructions
 
 ### Use "Offline Mode" for local development and testing
 
-- Use the command `sls offline` to test API endpoints locally
+- Run the command `docker-compose up` to test API endpoints locally
+- You can reach the API under localhost:3000
+  - If you want to change the local port, change the "ports" entry under "serverless" in the docker-compose.yml
+- The dirs config, services and utils are mounted into the running container, so you code changes will become available instantly on the running instance
+  - If you want to change that, remove the "volumes" entries under "serverless" in the docker-compose.yml
 
 ## Stages
 

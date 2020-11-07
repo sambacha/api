@@ -1,0 +1,11 @@
+.gitattributes
+.DS_Store
+.env
+.git
+.gitignore
+*.example
+.idea
+node_modules
+docker-compose.yml
+*.sh
+.github/
